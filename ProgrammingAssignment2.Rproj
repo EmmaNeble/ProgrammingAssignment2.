@@ -1,13 +1,42 @@
-Version: 1.0
+## Put comments here that give an overall description of what your
+## functions do
 
-RestoreWorkspace: Default
-SaveWorkspace: Default
-AlwaysSaveHistory: Default
+## Write a short comment describing this function
 
-EnableCodeIndexing: Yes
-UseSpacesForTab: Yes
-NumSpacesForTab: 2
-Encoding: UTF-8
+makeCacheMatrix <- function(x = matrix(sample(1:200,25),5,5)) {
+  s <- NULL
+  set <- function(y) {
+    x <<- y
+    s <<- NULL
+  }
+  get <- function() x
+  setsolve <- function(solve) s <<- solve
+  getsolve <- function() s
+  list(set = set, get = get,
+       setsolve = setsolve,
+       getsolve = getsolve)
+  
+}
+# I setted the input to a matrix. Then I setted the solved value "s" as a null and changed "mean" to "solve"
 
-RnwWeave: Sweave
-LaTeX: pdfLaTeX
+## Write a short comment describing this function
+
+cacheSolve <- function(x, ...) {
+        ## Return a matrix that is the inverse of 'x'
+    s <- x$getsolve()
+    if(!is.null(s)) {
+      message("getting inversed matrix")
+      return(s)
+    }
+    data <- x$get()
+    s <- solve(data, ...)
+    x$setsolve(s)
+    s
+    
+}
+#For this part I changed "m" to "s" and "mean" to "solve" 
+
+A <- matrix(sample(1:200,25),5,5)
+A1 <- makeCacheMatrix(A)
+cacheSolve(A1)
+#I tested it 
